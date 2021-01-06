@@ -49,7 +49,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Calculadora de IMC'),
-        centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.refresh),
@@ -65,40 +64,8 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Icon(Icons.person, size: 120.0, color: Colors.blue),
-              Container(
-                height: 80,
-                child: TextFormField(
-                  controller: weightController,
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(fontSize: 18),
-                  decoration: InputDecoration(
-                      labelText: 'Peso (kg)',
-                      labelStyle: TextStyle(color: Colors.blue)),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Insira seu Peso!';
-                    }
-                  },
-                ),
-              ),
-              Container(
-                height: 80,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      labelText: 'Altura (cm)',
-                      labelStyle: TextStyle(color: Colors.blue)),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
-                  controller: heightController,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Insira sua Altura!';
-                    }
-                  },
-                ),
-              ),
+              textField(weightController, 'Peso (kg)', 'Insira seu Peso!'),
+              textField(heightController, 'Altura (cm)', 'Insira sua Altura!'),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                 child: RaisedButton(
@@ -125,4 +92,23 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+Widget textField(TextEditingController ctrl, String label, String errorMsg) {
+  return Container(
+    height: 80,
+    child: TextFormField(
+      controller: ctrl,
+      textAlign: TextAlign.center,
+      keyboardType: TextInputType.number,
+      style: TextStyle(fontSize: 18),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.blue),
+      ),
+      validator: (value){
+        if (value.isEmpty) { return errorMsg; }
+      },
+    ),
+  );
 }
